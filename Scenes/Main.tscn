@@ -1,0 +1,105 @@
+[gd_scene load_steps=11 format=3 uid="uid://cldhyfu75465a"]
+
+[ext_resource type="Script" uid="uid://bs8df4hc7lhjm" path="res://CaracterOneScripts/character_one.gd" id="1_idj7w"]
+[ext_resource type="Texture2D" uid="uid://dfx5voxhktxf7" path="res://icon.svg" id="1_r150o"]
+[ext_resource type="Script" uid="uid://bev2u3iikbqqi" path="res://CaracterOneScripts/character_two.gd" id="3_kln2b"]
+[ext_resource type="Script" uid="uid://cbglnagchtegy" path="res://player.gd" id="4_rgh2o"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pbw6q"]
+size = Vector2(47.9998, 64.0001)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v1gob"]
+size = Vector2(48, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jw32o"]
+size = Vector2(64, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rgh2o"]
+size = Vector2(464, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_idj7w"]
+size = Vector2(1280, 192)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kln2b"]
+size = Vector2(32, 448)
+
+[node name="Main" type="Node2D"]
+metadata/_edit_lock_ = true
+
+[node name="CharacterOne" type="CharacterBody2D" parent="."]
+z_index = 5
+position = Vector2(440, 368)
+collision_mask = 2
+script = ExtResource("1_idj7w")
+metadata/_edit_group_ = true
+
+[node name="Sprite" type="Sprite2D" parent="CharacterOne"]
+z_index = 5
+position = Vector2(-24, -16)
+scale = Vector2(0.375, 0.5)
+texture = ExtResource("1_r150o")
+metadata/_edit_group_ = true
+
+[node name="Hit_Box" type="CollisionShape2D" parent="CharacterOne"]
+z_index = 5
+position = Vector2(-24, -16)
+rotation = 3.14159
+shape = SubResource("RectangleShape2D_pbw6q")
+
+[node name="CharacterTwo" type="CharacterBody2D" parent="."]
+position = Vector2(680, 368)
+collision_mask = 2
+script = ExtResource("3_kln2b")
+metadata/_edit_group_ = true
+
+[node name="Sprite" type="Sprite2D" parent="CharacterTwo"]
+scale = Vector2(0.375, 0.5)
+texture = ExtResource("1_r150o")
+
+[node name="Hit_Box" type="CollisionShape2D" parent="CharacterTwo"]
+shape = SubResource("RectangleShape2D_v1gob")
+
+[node name="Player" type="CharacterBody2D" parent="."]
+collision_mask = 2
+script = ExtResource("4_rgh2o")
+metadata/_custom_type_script = "uid://bs8df4hc7lhjm"
+
+[node name="teste" type="CollisionShape2D" parent="Player"]
+position = Vector2(224, 288)
+shape = SubResource("RectangleShape2D_jw32o")
+
+[node name="StaticColisions" type="StaticBody2D" parent="."]
+z_index = 4
+collision_layer = 2
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticColisions"]
+z_index = 4
+position = Vector2(968, 336)
+shape = SubResource("RectangleShape2D_rgh2o")
+
+[node name="Ground" type="CollisionShape2D" parent="StaticColisions"]
+z_index = 4
+position = Vector2(576, 544)
+shape = SubResource("RectangleShape2D_idj7w")
+metadata/_edit_lock_ = true
+
+[node name="Wall3" type="CollisionShape2D" parent="StaticColisions"]
+z_index = 4
+position = Vector2(-64, 224)
+shape = SubResource("RectangleShape2D_kln2b")
+
+[node name="Wall2" type="CollisionShape2D" parent="StaticColisions"]
+z_index = 4
+position = Vector2(1216, 224)
+shape = SubResource("RectangleShape2D_kln2b")
+
+[node name="Wall" type="CollisionShape2D" parent="StaticColisions"]
+z_index = 4
+position = Vector2(576, 224)
+shape = SubResource("RectangleShape2D_kln2b")
+metadata/_edit_lock_ = true
+
+[node name="TileMap" type="TileMapLayer" parent="."]
+z_index = 3
+metadata/_edit_lock_ = true
