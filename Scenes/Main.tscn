@@ -1,10 +1,10 @@
-[gd_scene load_steps=18 format=3 uid="uid://cldhyfu75465a"]
+[gd_scene load_steps=19 format=3 uid="uid://cldhyfu75465a"]
 
 [ext_resource type="Script" uid="uid://bs8df4hc7lhjm" path="res://CaracterOneScripts/character_one.gd" id="1_idj7w"]
 [ext_resource type="Texture2D" uid="uid://dfx5voxhktxf7" path="res://icon.svg" id="1_r150o"]
 [ext_resource type="Script" uid="uid://bev2u3iikbqqi" path="res://CaracterOneScripts/character_two.gd" id="3_kln2b"]
 [ext_resource type="Script" uid="uid://c6sq88o81f6o5" path="res://Map_1/Map1Main.gd" id="4_rgh2o"]
-[ext_resource type="Script" uid="uid://cwxrc38dnvru2" path="res://Map_1/RigidsBody/rigid_body_2d.gd" id="5_pbw6q"]
+[ext_resource type="Script" uid="uid://b85s7cgsbmh88" path="res://Map_1/magneti_bodys.gd" id="5_pbw6q"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pbw6q"]
 size = Vector2(47.9998, 64.0001)
@@ -16,7 +16,7 @@ size = Vector2(48, 64)
 size = Vector2(1152.5, 64)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_50glp"]
-size = Vector2(32, 64)
+size = Vector2(32, 128)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rgh2o"]
 size = Vector2(416, 32)
@@ -31,7 +31,7 @@ size = Vector2(32, 256)
 size = Vector2(1152, 64)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bmxlf"]
-size = Vector2(416, 32)
+size = Vector2(344, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4kpch"]
 size = Vector2(192, 32)
@@ -40,100 +40,114 @@ size = Vector2(192, 32)
 size = Vector2(528, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_frkhe"]
-size = Vector2(33, 32)
+size = Vector2(64, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1p5hy"]
+size = Vector2(16, 24)
 
 [node name="Main" type="Node2D"]
 metadata/_edit_lock_ = true
 
-[node name="CharacterOne" type="CharacterBody2D" parent="."]
+[node name="Players" type="Node2D" parent="."]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="Players"]
+
+[node name="CharacterOne" type="CharacterBody2D" parent="Players"]
 z_index = 5
-position = Vector2(288, 416)
+position = Vector2(824, 224)
 collision_mask = 2
 script = ExtResource("1_idj7w")
 metadata/_edit_group_ = true
 
-[node name="Sprite" type="Sprite2D" parent="CharacterOne"]
+[node name="Sprite" type="Sprite2D" parent="Players/CharacterOne"]
 z_index = 5
 scale = Vector2(0.375, 0.5)
 texture = ExtResource("1_r150o")
 
-[node name="Hit_Box" type="CollisionShape2D" parent="CharacterOne"]
+[node name="Hit_Box" type="CollisionShape2D" parent="Players/CharacterOne"]
 z_index = 5
 rotation = 3.14159
 shape = SubResource("RectangleShape2D_pbw6q")
 
-[node name="CharacterTwo" type="CharacterBody2D" parent="."]
-position = Vector2(288, 280)
+[node name="CharacterTwo" type="CharacterBody2D" parent="Players"]
+position = Vector2(672, 544)
 collision_mask = 2
 script = ExtResource("3_kln2b")
 metadata/_edit_group_ = true
 
-[node name="Sprite" type="Sprite2D" parent="CharacterTwo"]
+[node name="Sprite" type="Sprite2D" parent="Players/CharacterTwo"]
 scale = Vector2(0.375, 0.5)
 texture = ExtResource("1_r150o")
 
-[node name="Hit_Box" type="CollisionShape2D" parent="CharacterTwo"]
+[node name="Hit_Box" type="CollisionShape2D" parent="Players/CharacterTwo"]
 shape = SubResource("RectangleShape2D_v1gob")
 
-[node name="StaticColisions" type="StaticBody2D" parent="."]
-z_index = 4
-collision_layer = 2
+[node name="MapOne" type="Node2D" parent="."]
+
+[node name="StaticColisions" type="StaticBody2D" parent="MapOne"]
+z_index = 5
+z_as_relative = false
+collision_layer = 3
 script = ExtResource("4_rgh2o")
 
-[node name="Ceiling" type="CollisionShape2D" parent="StaticColisions"]
+[node name="Ceiling" type="CollisionShape2D" parent="MapOne/StaticColisions"]
 position = Vector2(576, 32)
 shape = SubResource("RectangleShape2D_jw32o")
 
-[node name="plataform_B" type="CollisionShape2D" parent="StaticColisions"]
-position = Vector2(576, 288)
+[node name="plataform_B" type="CollisionShape2D" parent="MapOne/StaticColisions"]
+position = Vector2(576, 256)
 shape = SubResource("RectangleShape2D_50glp")
 
-[node name="plataform_A" type="CollisionShape2D" parent="StaticColisions"]
+[node name="plataform_A" type="CollisionShape2D" parent="MapOne/StaticColisions"]
 z_index = 4
 position = Vector2(912, 464)
 shape = SubResource("RectangleShape2D_rgh2o")
 
-[node name="Wall_R" type="CollisionShape2D" parent="StaticColisions"]
+[node name="Wall_R" type="CollisionShape2D" parent="MapOne/StaticColisions"]
 position = Vector2(1136, 320)
 shape = SubResource("RectangleShape2D_vy5pj")
 
-[node name="Wall_L" type="CollisionShape2D" parent="StaticColisions"]
+[node name="Wall_L" type="CollisionShape2D" parent="MapOne/StaticColisions"]
 position = Vector2(16, 320)
 shape = SubResource("RectangleShape2D_vy5pj")
 
-[node name="Wall" type="CollisionShape2D" parent="StaticColisions"]
+[node name="Wall" type="CollisionShape2D" parent="MapOne/StaticColisions"]
 z_index = 4
 position = Vector2(576, 448)
 shape = SubResource("RectangleShape2D_kln2b")
 
-[node name="Ground" type="CollisionShape2D" parent="StaticColisions"]
+[node name="Ground" type="CollisionShape2D" parent="MapOne/StaticColisions"]
 z_index = 4
 position = Vector2(576, 608)
 shape = SubResource("RectangleShape2D_idj7w")
 
-[node name="Plataform_C" type="CollisionShape2D" parent="StaticColisions"]
-position = Vector2(912, 272)
+[node name="Plataform_C" type="CollisionShape2D" parent="MapOne/StaticColisions"]
+position = Vector2(948, 272)
 shape = SubResource("RectangleShape2D_bmxlf")
 
-[node name="Plataform_D2" type="CollisionShape2D" parent="StaticColisions"]
+[node name="Plataform_D2" type="CollisionShape2D" parent="MapOne/StaticColisions"]
 position = Vector2(288, 464)
 shape = SubResource("RectangleShape2D_4kpch")
 
-[node name="Plataform_D" type="CollisionShape2D" parent="StaticColisions"]
+[node name="Plataform_D" type="CollisionShape2D" parent="MapOne/StaticColisions"]
 position = Vector2(288, 208)
 shape = SubResource("RectangleShape2D_4kpch")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticColisions"]
+[node name="plataform_E" type="CollisionShape2D" parent="MapOne/StaticColisions"]
 position = Vector2(296, 336)
 shape = SubResource("RectangleShape2D_grg3l")
 
-[node name="TileMap" type="TileMapLayer" parent="."]
-z_index = 3
-metadata/_edit_lock_ = true
+[node name="plataform_F" type="CollisionShape2D" parent="MapOne/StaticColisions"]
+position = Vector2(624, 336)
+shape = SubResource("RectangleShape2D_frkhe")
 
-[node name="RigidBody2D" type="RigidBody2D" parent="."]
+[node name="MagnetiBodys" type="StaticBody2D" parent="MapOne"]
 script = ExtResource("5_pbw6q")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
-position = Vector2(896, 240)
-shape = SubResource("RectangleShape2D_frkhe")
+[node name="ObjOne" type="CollisionShape2D" parent="MapOne/MagnetiBodys"]
+position = Vector2(640, 76)
+shape = SubResource("RectangleShape2D_1p5hy")
+
+[node name="TileMap" type="TileMapLayer" parent="MapOne"]
+z_index = 3
+metadata/_edit_lock_ = true

@@ -25,6 +25,7 @@ window/stretch/aspect="expand"
 magnetizable=""
 positive="who's positive"
 negative="who's negative"
+disebled=""
 
 [input]
 
@@ -93,3 +94,4 @@ p2_change_polo={
 
 2d_physics/layer_1="Character1"
 2d_physics/layer_2="Floor"
+2d_physics/layer_3="MoveBlocks"

@@ -1,7 +1,7 @@
 class_name Player extends CharacterBody2D
 
 #gravity
-@export var gravity: float = 800.0
+@export var gravity: float = 900.0
 @export var normal_gravity_multiplier: float = 1.0   # Multiplicador padrão da gravidade
 @export var gravity_increase_rate: float = 1      # Taxa (por segundo) de aumento do multiplicador
 @export var max_gravity_multiplier: float = 3.0      # Limite máximo do multiplicador
@@ -9,9 +9,9 @@ class_name Player extends CharacterBody2D
 var current_gravity_multiplier: float = normal_gravity_multiplier
 
 #Jump
-@export var max_jump_velocity: float = -500.0
-@export var jump_acceleration: float = -700.0       
-@export var jump_velocity: float = -500.0
+@export var max_jump_velocity: float = -100.0
+@export var jump_acceleration: float = -200.0       
+@export var jump_velocity: float = -400.0
 @export var speed: float = 400.0
 @export var acceleration: float = 800.0
 @export var friction: float = 1400.0
@@ -28,10 +28,14 @@ var jump_active: bool = false
 @export var max_intensity = 5000
 @export var min_intensity = 400 
 @export var force_factor = 3 
-@export var max_intensity_atract = 5000
-@export var max_intensity_repuse = 10000
-@export var min_intensity_atract = 500
-@export var min_intensity_repuse = 500
+@export var max_intensity_atract_player = 5000
+@export var max_intensity_repuse_player = 10000
+@export var min_intensity_atract_player = 500
+@export var min_intensity_repuse_player = 500
+@export var max_intensity_atract_staticbody = 2000
+@export var max_intensity_repuse_staticbody = 2000
+@export var min_intensity_atract_staticbody = 500
+@export var min_intensity_repuse_staticbody = 500
 
 
 #aceleration by magnetic
@@ -49,6 +53,7 @@ var change_group_ax = true
 var group = "magnetizable"
 var positive_group = "positive"
 var negative_group = "negative"
+var disable_group = "disabled"
 var sigh = 1
 
 func _ready():
@@ -160,38 +165,54 @@ func apply_force_to_object(obj, _distance, intensity, delta):
 	# Calcula a força final
 	var force = (direction / force_factor) * intensity * force_strength
 	print("DEBUG:", obj.name, "| Força Aplicada:", force)
+	
+	var _acceleration = force * delta  # Transformamos a força em aceleração
+	print("a aceleração que vai ser aplicada: ", _acceleration)
+		
+		# Diferencia o efeito no chão e no ar
 
 	# Se for um CharacterBody2D
 	if obj is CharacterBody2D:
-		var _acceleration = force * delta  # Transformamos a força em aceleração
-		print("a aceleração que vai ser aplicada: ", _acceleration)
 		
-		# Diferencia o efeito no chão e no ar
 		if obj.is_on_floor():
 			_acceleration *= on_floor_friction # Reduz efeito no chão (atrito)
 		else:
 			_acceleration *= on_air_friction  # Aumenta efeito no ar
-		
-		
+			
 		if obj.is_in_group(positive_group) and is_in_group(positive_group) or obj.is_in_group(negative_group) and is_in_group(negative_group):
 			sigh = 1
-			max_intensity = max_intensity_repuse
-			min_intensity = min_intensity_repuse
-			obj.velocity = obj.velocity + (_acceleration) * sigh
+			max_intensity = max_intensity_repuse_player
+			min_intensity = min_intensity_repuse_player
 			print("DEBUG: Nova velocidade de", obj.name, ":", obj.velocity)
 		else: 
 			sigh = -1 
-			max_intensity = max_intensity_repuse
-			min_intensity = min_intensity_atract
-			obj.velocity = obj.velocity + (_acceleration) * sigh
+			max_intensity = max_intensity_repuse_player
+			min_intensity = min_intensity_atract_player
 			print("DEBUG: Nova velocidade de", obj.name, ":", obj.velocity)
 			
+		obj.velocity = obj.velocity + (_acceleration) * sigh
 			
 		#obj.velocity = obj.velocity + (_acceleration) * sigh
 		#print("DEBUG: Nova velocidade de", obj.name, ":", obj.velocity)
 
-	# Se for um RigidBody2D
-	elif obj is RigidBody2D:
-		obj.apply_impulse(Vector2.ZERO, force)
-		print("DEBUG: Impulso aplicado ao RigidBody2D:", force)
+	elif obj is CollisionShape2D:
 		
+		if is_on_floor():
+			_acceleration *= on_floor_friction # Reduz efeito no chão (atrito)
+		else:
+			_acceleration *= on_air_friction  # Aumenta efeito no ar
+		
+		if obj.is_in_group(positive_group) and is_in_group(positive_group) or obj.is_in_group(negative_group) and is_in_group(negative_group):
+			if !obj.is_in_group(disable_group):
+				sigh = 1
+				max_intensity = max_intensity_repuse_staticbody
+				min_intensity = min_intensity_repuse_staticbody
+				print("DEBUG: Nova velocidade de", obj.name, ":", velocity, "if")
+		else:
+			if !obj.is_in_group(disable_group):
+				sigh = -1 
+				max_intensity = max_intensity_repuse_staticbody
+				min_intensity = min_intensity_atract_staticbody
+				print("DEBUG: Nova velocidade de", obj.name, ":", velocity, " else")
+
+		velocity = velocity + (_acceleration) * sigh
