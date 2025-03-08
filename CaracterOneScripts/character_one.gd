@@ -25,21 +25,53 @@ var jump_active: bool = false
 @export var is_attracting: bool = true 
 
 #intensity
-#@export var max_intensity = 2.0 
-#@export var min_intensity = 0.1  
-#@export var n = 2.0  
+@export var max_intensity = 5000
+@export var min_intensity = 400 
+@export var force_factor = 3 
+@export var max_intensity_atract = 5000
+@export var max_intensity_repuse = 10000
+@export var min_intensity_atract = 500
+@export var min_intensity_repuse = 500
+
+
+#aceleration by magnetic
+@export var on_floor_friction = 0.8
+@export var on_air_friction = 1.0
+
+var left = "p1_left"
+var right = "p1_right"
+var jump = "p1_jump"
+var atract = "p1_magnetic_atract"
+var repuse = "p1_magnetic_repuse"
+var polo = "p1_chance_polo"
+
+var change_group_ax = true
+var group = "magnetizable"
+var positive_group = "positive"
+var negative_group = "negative"
+var sigh = 1
 
 func _ready():
-	add_to_group("magnetizable")
+	add_to_group(group)
 
 func inputs_atract_refuse():
-		if Input.is_action_pressed("p1_magnetic_atract") or Input.is_action_pressed("p1_magnetic_repuse"):
+		if Input.is_action_pressed(atract) or Input.is_action_pressed(repuse):
 			is_magnetism_active = true
-		if Input.is_action_just_released("p1_magnetic_atract") or Input.is_action_just_released("p1_magnetic_repuse"):
+		if Input.is_action_just_released(atract) or Input.is_action_just_released(repuse):
 			is_magnetism_active = false
-		if Input.is_action_just_pressed("p1_chance_polo"):
-			is_attracting = !is_attracting
-			print("change polo", is_attracting)
+		if Input.is_action_just_pressed(polo):
+			if change_group_ax:
+				add_to_group(positive_group)
+				remove_from_group(negative_group)
+				change_group_ax = !change_group_ax
+				var groups = get_groups()
+				print(groups)
+			else:
+				add_to_group(negative_group)
+				remove_from_group(positive_group)
+				change_group_ax = !change_group_ax
+				var groups = get_groups()
+				print(groups)
 
 func _process(delta: float) -> void:
 	delta = delta
@@ -55,13 +87,13 @@ func _physics_process(delta: float) -> void:
 	if is_on_floor():
 		current_gravity_multiplier = normal_gravity_multiplier
 	
-	if is_on_floor() and Input.is_action_just_pressed("p1_jump"):
+	if is_on_floor() and Input.is_action_just_pressed(jump):
 		velocity.y = jump_velocity  # Define a velocidade inicial do pulo
 		jump_active = true          # Permite prolongar o pulo enquanto o botão estiver pressionado
 
 # Se o pulo estiver ativo (ou seja, o jogador ainda pode prolongar o pulo)
 	if jump_active:
-		if Input.is_action_pressed("p1_jump"):
+		if Input.is_action_pressed(jump):
 			if velocity.y > max_jump_velocity:
 				velocity.y += jump_acceleration * delta
 				if velocity.y < max_jump_velocity:
@@ -76,9 +108,9 @@ func _physics_process(delta: float) -> void:
 	
 	# Movimento horizontal com aceleração
 	var target_speed = 0
-	if Input.is_action_pressed("p1_right"):
+	if Input.is_action_pressed(right):
 		target_speed = speed
-	elif Input.is_action_pressed("p1_left"):
+	elif Input.is_action_pressed(left):
 		target_speed = -speed
 	
 	velocity.x = move_toward(velocity.x, target_speed, acceleration * delta)
@@ -88,7 +120,7 @@ func _physics_process(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, 0, friction * delta)
 
 	# Pular se estiver no chão
-	if is_on_floor() and Input.is_action_just_pressed("p1_jump"):
+	if is_on_floor() and Input.is_action_just_pressed(jump):
 		velocity.y = jump_velocity
 
 	if not is_on_floor():
@@ -100,7 +132,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func calc_magnetic_distance(delta):
-	var objects = get_tree().get_nodes_in_group("magnetizable")
+	var objects = get_tree().get_nodes_in_group(group)
 	for obj in objects:
 		if obj == self:
 			continue  # Ignora a si mesmo
@@ -119,13 +151,14 @@ func calculate_magnetic_intensity(distance):
 		distance = distance / 10000
 		var intensity = 1.0 / (distance * distance)
 		#print("| Distância:", distance, "| Intensidade:", intensity)
-		return intensity
+		
+		return clamp(intensity,min_intensity,max_intensity)
 
 func apply_force_to_object(obj, _distance, intensity, delta):
 	var direction = (obj.position - position).normalized()
 	
 	# Calcula a força final
-	var force = (direction / 3) * intensity * force_strength
+	var force = (direction / force_factor) * intensity * force_strength
 	print("DEBUG:", obj.name, "| Força Aplicada:", force)
 
 	# Se for um CharacterBody2D
@@ -135,14 +168,30 @@ func apply_force_to_object(obj, _distance, intensity, delta):
 		
 		# Diferencia o efeito no chão e no ar
 		if obj.is_on_floor():
-			_acceleration *= 0.8  # Reduz efeito no chão (atrito)
+			_acceleration *= on_floor_friction # Reduz efeito no chão (atrito)
 		else:
-			_acceleration *= 1.0  # Aumenta efeito no ar
+			_acceleration *= on_air_friction  # Aumenta efeito no ar
 		
-		obj.velocity = obj.velocity - (_acceleration + Vector2(0, gravity * delta))
-		print("DEBUG: Nova velocidade de", obj.name, ":", obj.velocity)
+		
+		if obj.is_in_group(positive_group) and is_in_group(positive_group) or obj.is_in_group(negative_group) and is_in_group(negative_group):
+			sigh = 1
+			max_intensity = max_intensity_repuse
+			min_intensity = min_intensity_repuse
+			obj.velocity = obj.velocity + (_acceleration) * sigh
+			print("DEBUG: Nova velocidade de", obj.name, ":", obj.velocity)
+		else: 
+			sigh = -1 
+			max_intensity = max_intensity_repuse
+			min_intensity = min_intensity_atract
+			obj.velocity = obj.velocity + (_acceleration) * sigh
+			print("DEBUG: Nova velocidade de", obj.name, ":", obj.velocity)
+			
+			
+		#obj.velocity = obj.velocity + (_acceleration) * sigh
+		#print("DEBUG: Nova velocidade de", obj.name, ":", obj.velocity)
 
 	# Se for um RigidBody2D
 	elif obj is RigidBody2D:
 		obj.apply_impulse(Vector2.ZERO, force)
 		print("DEBUG: Impulso aplicado ao RigidBody2D:", force)
+		

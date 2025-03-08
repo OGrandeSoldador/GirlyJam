@@ -31,6 +31,7 @@ var jump_active: bool = false
 
 func _ready():
 	add_to_group("magnetizable")
+	add_to_group("positive")
 
 func inputs_atract_refuse():
 		if Input.is_action_pressed("p2_magnetic_atract") or Input.is_action_pressed("p2_magnetic_repuse"):

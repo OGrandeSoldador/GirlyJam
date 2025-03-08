@@ -22,7 +22,9 @@ window/stretch/aspect="expand"
 
 [global_group]
 
-magnetizable="can be affected by magnetic effects"
+magnetizable=""
+positive="who's positive"
+negative="who's negative"
 
 [input]
 
