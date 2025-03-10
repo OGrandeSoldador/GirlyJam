@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://bjespvdwdgoxk"]
+
+[ext_resource type="Script" uid="uid://rclvg0bw4css" path="res://Scenes/character_body_2d.gd" id="1_cnwn0"]
+[ext_resource type="Texture2D" uid="uid://b85u80i6mx2v4" path="res://Assets/TileSets/Key/Blue/BlueKey.png" id="2_67546"]
+[ext_resource type="Texture2D" uid="uid://cvk84j7c500q1" path="res://Assets/TileSets/Key/Pink/PinkKey.png" id="3_axemr"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_me05n"]
+size = Vector2(32, 16)
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+z_index = 7
+collision_layer = 8
+collision_mask = 2
+script = ExtResource("1_cnwn0")
+metadata/_edit_group_ = true
+
+[node name="negative" type="Sprite2D" parent="."]
+scale = Vector2(0.727273, 0.888889)
+texture = ExtResource("2_67546")
+
+[node name="positive" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-8.34465e-06, -6.79493e-06)
+scale = Vector2(0.727272, 0.888888)
+texture = ExtResource("3_axemr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_me05n")
+metadata/_edit_group_ = true

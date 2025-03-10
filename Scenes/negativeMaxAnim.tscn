@@ -1,0 +1,128 @@
+[gd_scene load_steps=17 format=3 uid="uid://dq45s0qwynpvb"]
+
+[ext_resource type="Texture2D" uid="uid://c7y5arcenx4kn" path="res://Assets/TileSets/Characters/Pink/Reverse/Angry/Angry1.png" id="1_if1j3"]
+[ext_resource type="Texture2D" uid="uid://c5uppss80pe4f" path="res://Assets/TileSets/Characters/Pink/Reverse/Angry/Angry2.png" id="2_biik7"]
+[ext_resource type="Texture2D" uid="uid://dadwjbmcv4k7l" path="res://Assets/TileSets/Characters/Pink/Reverse/Loving/Love1.png" id="3_s3fsn"]
+[ext_resource type="Texture2D" uid="uid://cqlgmkbl8u8uy" path="res://Assets/TileSets/Characters/Pink/Reverse/Loving/Love2.png" id="4_incop"]
+[ext_resource type="Texture2D" uid="uid://8soogr8xd710" path="res://Assets/TileSets/Characters/Pink/onAirReverse.png" id="5_yb5j8"]
+[ext_resource type="Texture2D" uid="uid://dbsr00xobhvl5" path="res://Assets/TileSets/Characters/Pink/WallRightNegative/Wall1.png" id="6_3ptdt"]
+[ext_resource type="Texture2D" uid="uid://bql2g1xi1pr5x" path="res://Assets/TileSets/Characters/Pink/Reverse/Running/Run3.png" id="7_ykwgd"]
+[ext_resource type="Texture2D" uid="uid://bk4avk7auuywe" path="res://Assets/TileSets/Characters/Pink/Reverse/Running/Run4.png" id="8_p26bk"]
+[ext_resource type="Texture2D" uid="uid://bhx3pf4s2jrdi" path="res://Assets/TileSets/Characters/Pink/Reverse/Walk/Walk1.png" id="9_3xf6k"]
+[ext_resource type="Texture2D" uid="uid://dg3vylk5qhegv" path="res://Assets/TileSets/Characters/Pink/Reverse/Running/Run1.png" id="10_2yoxb"]
+[ext_resource type="Texture2D" uid="uid://cah5vuquqaem7" path="res://Assets/TileSets/Characters/Pink/Reverse/Running/Run2.png" id="11_gvwds"]
+[ext_resource type="Texture2D" uid="uid://cxdxc7g8hl0i6" path="res://Assets/TileSets/Characters/Pink/Reverse/Stop/Stop1.png" id="12_jfvqq"]
+[ext_resource type="Texture2D" uid="uid://ci3yjdrkbty81" path="res://Assets/TileSets/Characters/Pink/Reverse/Stop/Stop2.png" id="13_4x6vi"]
+[ext_resource type="Texture2D" uid="uid://twmm7x52vhti" path="res://Assets/TileSets/Characters/Pink/Reverse/Walk/Walk2.png" id="14_dw3y1"]
+[ext_resource type="Texture2D" uid="uid://dio2yyo3idpa5" path="res://Assets/TileSets/Characters/Pink/Reverse/Wall/Wall1.png" id="15_xyrd5"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0jhrj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_if1j3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_biik7")
+}],
+"loop": true,
+"name": &"Angry",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_s3fsn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_incop")
+}],
+"loop": true,
+"name": &"Happy",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 0.01,
+"texture": ExtResource("5_yb5j8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_yb5j8")
+}],
+"loop": true,
+"name": &"OnAir",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_3ptdt")
+}],
+"loop": true,
+"name": &"OnLeftWall",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_3ptdt")
+}],
+"loop": true,
+"name": &"OnRightWall",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 0.5,
+"texture": ExtResource("7_ykwgd")
+}, {
+"duration": 0.3,
+"texture": ExtResource("8_p26bk")
+}, {
+"duration": 0.3,
+"texture": ExtResource("9_3xf6k")
+}, {
+"duration": 0.5,
+"texture": ExtResource("10_2yoxb")
+}, {
+"duration": 0.3,
+"texture": ExtResource("11_gvwds")
+}, {
+"duration": 0.3,
+"texture": ExtResource("9_3xf6k")
+}],
+"loop": true,
+"name": &"Running",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("12_jfvqq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_4x6vi")
+}],
+"loop": true,
+"name": &"Stopped",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("14_dw3y1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_3xf6k")
+}],
+"loop": true,
+"name": &"Walking",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("15_xyrd5")
+}],
+"loop": true,
+"name": &"WallJump",
+"speed": 5.0
+}]
+
+[node name="Negative" type="AnimatedSprite2D"]
+visible = false
+sprite_frames = SubResource("SpriteFrames_0jhrj")
+animation = &"OnAir"
+autoplay = "Stopped"

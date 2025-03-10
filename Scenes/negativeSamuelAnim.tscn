@@ -1,0 +1,125 @@
+[gd_scene load_steps=17 format=3 uid="uid://blobtesr1r8sk"]
+
+[ext_resource type="Texture2D" uid="uid://dvuuh5x16ikjh" path="res://Assets/TileSets/Characters/Blue/Original/Angry/Angry1.png" id="1_8drop"]
+[ext_resource type="Texture2D" uid="uid://dwuuw1qg8sd3e" path="res://Assets/TileSets/Characters/Blue/Original/Angry/Angry2.png" id="2_sq3sx"]
+[ext_resource type="Texture2D" uid="uid://c4nirdka43ii7" path="res://Assets/TileSets/Characters/Blue/Original/Loving/Love1.png" id="3_6ku8w"]
+[ext_resource type="Texture2D" uid="uid://by36kiekjjipb" path="res://Assets/TileSets/Characters/Blue/Original/Loving/Love2.png" id="4_ukagm"]
+[ext_resource type="Texture2D" uid="uid://3sqkd8hbcnle" path="res://Assets/TileSets/Characters/Blue/BluenegiJump.png" id="5_7qv5a"]
+[ext_resource type="Texture2D" uid="uid://dmts1cvww47tp" path="res://Assets/TileSets/Characters/Blue/Left/Original/Wall/Wall1.png" id="6_ngfi4"]
+[ext_resource type="Texture2D" uid="uid://cqtcvox6d5o06" path="res://Assets/TileSets/Characters/Blue/Original/Running/new/Blue1.png" id="7_6ku8w"]
+[ext_resource type="Texture2D" uid="uid://bamf2rg2jhuup" path="res://Assets/TileSets/Characters/Blue/Original/Running/new/Blue2.png" id="8_ukagm"]
+[ext_resource type="Texture2D" uid="uid://cs6cjmp64wteg" path="res://Assets/TileSets/Characters/Blue/Original/Running/new/Blue3.png" id="9_7qv5a"]
+[ext_resource type="Texture2D" uid="uid://0b3e1h0xl3lg" path="res://Assets/TileSets/Characters/Blue/Original/Walk/Walk1.png" id="10_ngfi4"]
+[ext_resource type="Texture2D" uid="uid://csmxmwnceerf7" path="res://Assets/TileSets/Characters/Blue/Original/Running/new/Blue4.png" id="11_fuuqx"]
+[ext_resource type="Texture2D" uid="uid://c7s2imsxgh2h5" path="res://Assets/TileSets/Characters/Blue/Original/Stop/Stop1.png" id="12_sq3sx"]
+[ext_resource type="Texture2D" uid="uid://dvmbqobhuaylp" path="res://Assets/TileSets/Characters/Blue/Original/Stop/Stop2.png" id="13_6ku8w"]
+[ext_resource type="Texture2D" uid="uid://br4x3y74tedjo" path="res://Assets/TileSets/Characters/Blue/Original/Walk/Walk2.png" id="14_ukagm"]
+[ext_resource type="Texture2D" uid="uid://ccaihlxyls1v6" path="res://Assets/TileSets/Characters/Blue/Original/Wall/Wall1.png" id="15_7qv5a"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2tqln"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_8drop")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_sq3sx")
+}],
+"loop": true,
+"name": &"Angry",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_6ku8w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_ukagm")
+}],
+"loop": true,
+"name": &"Happy",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_7qv5a")
+}],
+"loop": true,
+"name": &"OnAir",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_ngfi4")
+}],
+"loop": true,
+"name": &"OnLeftWall",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_ngfi4")
+}],
+"loop": true,
+"name": &"OnRightWall",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 0.6,
+"texture": ExtResource("7_6ku8w")
+}, {
+"duration": 0.3,
+"texture": ExtResource("8_ukagm")
+}, {
+"duration": 0.3,
+"texture": ExtResource("9_7qv5a")
+}, {
+"duration": 0.6,
+"texture": ExtResource("10_ngfi4")
+}, {
+"duration": 0.3,
+"texture": ExtResource("11_fuuqx")
+}, {
+"duration": 0.3,
+"texture": ExtResource("9_7qv5a")
+}],
+"loop": true,
+"name": &"Running",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("12_sq3sx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_6ku8w")
+}],
+"loop": true,
+"name": &"Stopped",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_ngfi4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_ukagm")
+}],
+"loop": true,
+"name": &"Walking",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 0.3,
+"texture": ExtResource("15_7qv5a")
+}],
+"loop": true,
+"name": &"WallJump",
+"speed": 5.0
+}]
+
+[node name="Negative" type="AnimatedSprite2D"]
+visible = false
+sprite_frames = SubResource("SpriteFrames_2tqln")
+animation = &"Angry"
+autoplay = "Stopped"

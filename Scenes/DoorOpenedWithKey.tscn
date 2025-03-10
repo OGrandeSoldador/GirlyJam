@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://cgotsuwr1kb44"]
+
+[ext_resource type="Script" uid="uid://crtf2lg1wc5c0" path="res://ExitDoorScript/KeyDoor.gd" id="1_usdgl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_es4yc"]
+size = Vector2(16, 112)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hrdr6"]
+size = Vector2(16, 112)
+
+[node name="KeyDoors" type="Area2D"]
+collision_layer = 2
+collision_mask = 9
+
+[node name="lock" type="CollisionShape2D" parent="."]
+position = Vector2(56, 592)
+shape = SubResource("RectangleShape2D_es4yc")
+script = ExtResource("1_usdgl")
+
+[node name="Door" type="StaticBody2D" parent="lock"]
+position = Vector2(-56, -592)
+collision_layer = 2
+
+[node name="Locked" type="CollisionShape2D" parent="lock/Door"]
+position = Vector2(40, 592)
+shape = SubResource("RectangleShape2D_hrdr6")

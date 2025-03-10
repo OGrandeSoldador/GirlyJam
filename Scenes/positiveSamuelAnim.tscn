@@ -1,0 +1,125 @@
+[gd_scene load_steps=17 format=3 uid="uid://l22hjjxed0a2"]
+
+[ext_resource type="Texture2D" uid="uid://cr0lk2qui0mg1" path="res://Assets/TileSets/Characters/Blue/Reverse/Angry/Angry1.png" id="1_ie0w7"]
+[ext_resource type="Texture2D" uid="uid://53c03gnai8on" path="res://Assets/TileSets/Characters/Blue/Reverse/Angry/Angry2.png" id="2_de13g"]
+[ext_resource type="Texture2D" uid="uid://byo2c2f247fdn" path="res://Assets/TileSets/Characters/Blue/Reverse/Loving/Love1.png" id="3_o0tam"]
+[ext_resource type="Texture2D" uid="uid://bhjpoysqbvn4u" path="res://Assets/TileSets/Characters/Blue/Reverse/Loving/love2.png" id="4_hduai"]
+[ext_resource type="Texture2D" uid="uid://c4pvl8s8jicv" path="res://Assets/TileSets/Characters/Blue/Blueposijump.png" id="5_et6s7"]
+[ext_resource type="Texture2D" uid="uid://s87321yww1l6" path="res://Assets/TileSets/Characters/Blue/Left/Reverse/Wall/Wall1.png" id="6_dy8na"]
+[ext_resource type="Texture2D" uid="uid://ifyebev06nbu" path="res://Assets/TileSets/Characters/Blue/Reverse/Running/new/Run1.png" id="7_2u30d"]
+[ext_resource type="Texture2D" uid="uid://c13ffgrwnst0x" path="res://Assets/TileSets/Characters/Blue/Reverse/Running/new/Run2.png" id="8_nlxja"]
+[ext_resource type="Texture2D" uid="uid://d3b4vclh00gwq" path="res://Assets/TileSets/Characters/Blue/Reverse/Running/new/Run3.png" id="9_ygkdh"]
+[ext_resource type="Texture2D" uid="uid://cnvt10721wuf7" path="res://Assets/TileSets/Characters/Blue/Reverse/Walk/Walk1.png" id="10_q5ou4"]
+[ext_resource type="Texture2D" uid="uid://beeo2kpgjs35t" path="res://Assets/TileSets/Characters/Blue/Reverse/Running/new/Run4.png" id="11_dty0n"]
+[ext_resource type="Texture2D" uid="uid://cv7hfr05yk80s" path="res://Assets/TileSets/Characters/Blue/Reverse/Stop/Stop1.png" id="12_qm0dx"]
+[ext_resource type="Texture2D" uid="uid://cpyqcmiy4rmb2" path="res://Assets/TileSets/Characters/Blue/Reverse/Stop/Stop2.png" id="13_2arye"]
+[ext_resource type="Texture2D" uid="uid://byyl3u0wdn8hq" path="res://Assets/TileSets/Characters/Blue/Reverse/Walk/Walk2.png" id="14_0m3c7"]
+[ext_resource type="Texture2D" uid="uid://dc63v7lcba1ut" path="res://Assets/TileSets/Characters/Blue/Reverse/Wall/Wall1.png" id="15_bnwo4"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2tqln"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_ie0w7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_de13g")
+}],
+"loop": true,
+"name": &"Angry",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_o0tam")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_hduai")
+}],
+"loop": true,
+"name": &"Happy",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 0.1,
+"texture": ExtResource("5_et6s7")
+}],
+"loop": true,
+"name": &"OnAir",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_dy8na")
+}],
+"loop": true,
+"name": &"OnLeftWall",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_dy8na")
+}],
+"loop": true,
+"name": &"OnRightWall",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 0.6,
+"texture": ExtResource("7_2u30d")
+}, {
+"duration": 0.3,
+"texture": ExtResource("8_nlxja")
+}, {
+"duration": 0.3,
+"texture": ExtResource("9_ygkdh")
+}, {
+"duration": 0.6,
+"texture": ExtResource("10_q5ou4")
+}, {
+"duration": 0.3,
+"texture": ExtResource("11_dty0n")
+}, {
+"duration": 0.3,
+"texture": ExtResource("9_ygkdh")
+}],
+"loop": true,
+"name": &"Running",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("12_qm0dx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_2arye")
+}],
+"loop": true,
+"name": &"Stopped",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 0.7,
+"texture": ExtResource("14_0m3c7")
+}, {
+"duration": 0.5,
+"texture": ExtResource("10_q5ou4")
+}],
+"loop": true,
+"name": &"Walking",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("15_bnwo4")
+}],
+"loop": true,
+"name": &"WallJump",
+"speed": 5.0
+}]
+
+[node name="Positive" type="AnimatedSprite2D"]
+visible = false
+sprite_frames = SubResource("SpriteFrames_2tqln")
+animation = &"Angry"
+autoplay = "Stopped"

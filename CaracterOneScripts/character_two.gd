@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+var player_name = "Max"
+
 #gravity
 @export var gravity: float = 800.0
 @export var normal_gravity_multiplier: float = 1.0   # Multiplicador padrão da gravidade
@@ -7,7 +9,6 @@ extends CharacterBody2D
 @export var max_gravity_multiplier: float = 3.0      # Limite máximo do multiplicador
 
 var current_gravity_multiplier: float = normal_gravity_multiplier
-
 #Jump
 @export var max_jump_velocity: float = -100.0
 @export var jump_acceleration: float = -400.0       

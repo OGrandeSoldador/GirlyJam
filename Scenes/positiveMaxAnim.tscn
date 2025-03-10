@@ -1,0 +1,125 @@
+[gd_scene load_steps=17 format=3 uid="uid://cm02es5mw36ys"]
+
+[ext_resource type="Texture2D" uid="uid://c7n8pydw54nvx" path="res://Assets/TileSets/Characters/Pink/Original/Angry/Angry1.png" id="1_8dc5b"]
+[ext_resource type="Texture2D" uid="uid://kiyx1bhdyrr0" path="res://Assets/TileSets/Characters/Pink/Original/Angry/Angry2.png" id="2_7mwx2"]
+[ext_resource type="Texture2D" uid="uid://b4seg7nncrms3" path="res://Assets/TileSets/Characters/Pink/Original/Loving/Love1.png" id="3_hn0e3"]
+[ext_resource type="Texture2D" uid="uid://bb5wrgipgtnfk" path="res://Assets/TileSets/Characters/Pink/Original/Loving/Love2.png" id="4_cqv0i"]
+[ext_resource type="Texture2D" uid="uid://dvno1hc0ylrmd" path="res://Assets/TileSets/Characters/Pink/Sprite-0007 - Copia.png" id="5_b1ob1"]
+[ext_resource type="Texture2D" uid="uid://kqmxcxdpy2q8" path="res://Assets/TileSets/Characters/Pink/WallRightPositive/Wall0.png" id="6_28gse"]
+[ext_resource type="Texture2D" uid="uid://btbauww2oxkx0" path="res://Assets/TileSets/Characters/Pink/Original/Running/Run1.png" id="7_mq0kt"]
+[ext_resource type="Texture2D" uid="uid://cfd2841hu8f0i" path="res://Assets/TileSets/Characters/Pink/Original/Running/Run2.png" id="8_ygyxx"]
+[ext_resource type="Texture2D" uid="uid://dqpvx85yx171" path="res://Assets/TileSets/Characters/Pink/Original/Walk/Walk1.png" id="9_qgla2"]
+[ext_resource type="Texture2D" uid="uid://bsw7jmsngd0kh" path="res://Assets/TileSets/Characters/Pink/Original/Running/Run3.png" id="10_c7fq8"]
+[ext_resource type="Texture2D" uid="uid://bmj8i28vdq1n8" path="res://Assets/TileSets/Characters/Pink/Original/Running/Run4.png" id="11_prau8"]
+[ext_resource type="Texture2D" uid="uid://bnsty14i87puw" path="res://Assets/TileSets/Characters/Pink/Original/Walk/Walk2.png" id="12_rfyqo"]
+[ext_resource type="Texture2D" uid="uid://btv6s252hhc3y" path="res://Assets/TileSets/Characters/Pink/Original/Stop/Stop1.png" id="13_sy81a"]
+[ext_resource type="Texture2D" uid="uid://cm01rworu74m8" path="res://Assets/TileSets/Characters/Pink/Original/Stop/Stop2.png" id="14_r7qpq"]
+[ext_resource type="Texture2D" uid="uid://bd3wv3mgd4v5l" path="res://Assets/TileSets/Characters/Pink/Original/Wall/Wall2.png" id="15_tbmra"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jo2ib"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_8dc5b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_7mwx2")
+}],
+"loop": true,
+"name": &"Angry",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_hn0e3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_cqv0i")
+}],
+"loop": true,
+"name": &"Happy",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 0.01,
+"texture": ExtResource("5_b1ob1")
+}],
+"loop": false,
+"name": &"OnAir",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_28gse")
+}],
+"loop": true,
+"name": &"OnLeftWall",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_28gse")
+}],
+"loop": true,
+"name": &"OnRightWall",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 0.6,
+"texture": ExtResource("7_mq0kt")
+}, {
+"duration": 0.3,
+"texture": ExtResource("8_ygyxx")
+}, {
+"duration": 0.3,
+"texture": ExtResource("9_qgla2")
+}, {
+"duration": 0.5,
+"texture": ExtResource("10_c7fq8")
+}, {
+"duration": 0.3,
+"texture": ExtResource("11_prau8")
+}, {
+"duration": 0.3,
+"texture": ExtResource("9_qgla2")
+}],
+"loop": true,
+"name": &"Running",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("13_sy81a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_r7qpq")
+}],
+"loop": true,
+"name": &"Stopped",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 0.7,
+"texture": ExtResource("9_qgla2")
+}, {
+"duration": 0.5,
+"texture": ExtResource("12_rfyqo")
+}],
+"loop": true,
+"name": &"Walking",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("15_tbmra")
+}],
+"loop": true,
+"name": &"WallJump",
+"speed": 5.0
+}]
+
+[node name="Positive" type="AnimatedSprite2D"]
+visible = false
+sprite_frames = SubResource("SpriteFrames_jo2ib")
+animation = &"Walking"
+autoplay = "Stopped"

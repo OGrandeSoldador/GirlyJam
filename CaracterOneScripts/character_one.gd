@@ -1,5 +1,15 @@
 class_name Player extends CharacterBody2D
 
+var player_name = "Max"
+var player = 0
+
+#Animation
+var current_animation: AnimatedSprite2D
+var animation_positive: AnimatedSprite2D
+var animation_negative: AnimatedSprite2D
+
+var last_animation = ""  # Armazena a última animação exibida
+
 #gravity
 @export var gravity: float = 900.0
 @export var normal_gravity_multiplier: float = 1.0   # Multiplicador padrão da gravidade
@@ -21,13 +31,13 @@ var jump_active: bool = false
 #Magnetics
 @export var is_magnetism_active: bool = false
 @export var force_strength: float = 2
-@export var magnetism_range: float = 300.0
+@export var magnetism_range: float = 350.0
 @export var is_attracting: bool = true 
 
 #intensity
+@export var force_factor = 3 
 @export var max_intensity = 5000
 @export var min_intensity = 400 
-@export var force_factor = 3 
 @export var max_intensity_atract_player = 5000
 @export var max_intensity_repuse_player = 10000
 @export var min_intensity_atract_player = 500
@@ -36,6 +46,10 @@ var jump_active: bool = false
 @export var max_intensity_repuse_staticbody = 2000
 @export var min_intensity_atract_staticbody = 500
 @export var min_intensity_repuse_staticbody = 500
+@export var max_intensity_atract_itens = 5000
+@export var max_intensity_repuse_itens = 5000
+@export var min_intensity_atract_itens = 500
+@export var min_intensity_repuse_itens = 500
 
 
 #aceleration by magnetic
@@ -47,17 +61,41 @@ var right = "p1_right"
 var jump = "p1_jump"
 var atract = "p1_magnetic_atract"
 var repuse = "p1_magnetic_repuse"
-var polo = "p1_chance_polo"
+var polo = "p1_change_polo"
 
-var change_group_ax = true
-var group = "magnetizable"
-var positive_group = "positive"
-var negative_group = "negative"
-var disable_group = "disabled"
+var change_group_ax
+const group = "magnetizable"
+const positive_group = "positive"
+const negative_group = "negative"
+const disable_group = "disabled"
+const itens = "keys"
 var sigh = 1
 
 func _ready():
 	add_to_group(group)
+	instanciate_animations()
+
+func instanciate_animations():
+	if player == 1:
+		var anim = preload("res://Scenes/positiveMaxAnim.tscn")
+		var anim2 = preload("res://Scenes/negativeMaxAnim.tscn")
+		animation_positive = anim.instantiate()
+		animation_negative = anim2.instantiate()
+		current_animation = animation_positive
+		add_child(animation_positive)
+		add_child(animation_negative)
+		print(animation_positive)
+	if player == 2:
+		var anim = preload("res://Scenes/positiveSamuelAnim.tscn")
+		var anim2 = preload("res://Scenes/negativeSamuelAnim.tscn")
+		animation_positive = anim.instantiate()
+		animation_negative = anim2.instantiate()
+		current_animation = anim2.instantiate()
+		add_child(animation_positive)
+		add_child(animation_negative)
+		print(animation_positive)
+		animation_negative.flip_h = true
+		animation_positive.flip_h = true
 
 func inputs_atract_refuse():
 		if Input.is_action_pressed(atract) or Input.is_action_pressed(repuse):
@@ -81,6 +119,7 @@ func inputs_atract_refuse():
 func _process(delta: float) -> void:
 	delta = delta
 	inputs_atract_refuse()
+	apply_animation()
 
 func _physics_process(delta: float) -> void:
 	# Aplica gravidade
@@ -113,10 +152,17 @@ func _physics_process(delta: float) -> void:
 	
 	# Movimento horizontal com aceleração
 	var target_speed = 0
+	var _new_animation = null
 	if Input.is_action_pressed(right):
 		target_speed = speed
+		animation_negative.flip_h = false
+		animation_positive.flip_h = false
+		
 	elif Input.is_action_pressed(left):
 		target_speed = -speed
+		animation_negative.flip_h = true
+		animation_positive.flip_h = true
+		
 	
 	velocity.x = move_toward(velocity.x, target_speed, acceleration * delta)
 	
@@ -142,8 +188,15 @@ func calc_magnetic_distance(delta):
 		if obj == self:
 			continue  # Ignora a si mesmo
 		var distance = position.distance_to(obj.position)
-			
+		
+		if obj.is_in_group("keys"):
+			var magnetic_range_item = 100
+			magnetism_range = magnetic_range_item
+		else:
+			magnetism_range = 300
+		
 		if distance <= magnetism_range and distance > 0:
+			
 			#print("Aplicando força em:", obj.name, " | Distância:", distance)
 			#print("DEBUG:", obj.name, "| Direção Normalizada:", direction)
 			var intencity = calculate_magnetic_intensity(distance)
@@ -164,15 +217,15 @@ func apply_force_to_object(obj, _distance, intensity, delta):
 	
 	# Calcula a força final
 	var force = (direction / force_factor) * intensity * force_strength
-	print("DEBUG:", obj.name, "| Força Aplicada:", force)
+	#print("DEBUG:", obj.name, "| Força Aplicada:", force)
 	
 	var _acceleration = force * delta  # Transformamos a força em aceleração
-	print("a aceleração que vai ser aplicada: ", _acceleration)
+	#print("a aceleração que vai ser aplicada: ", _acceleration)
 		
 		# Diferencia o efeito no chão e no ar
 
 	# Se for um CharacterBody2D
-	if obj is CharacterBody2D:
+	if obj is CharacterBody2D or KeyItem:
 		
 		if obj.is_on_floor():
 			_acceleration *= on_floor_friction # Reduz efeito no chão (atrito)
@@ -183,17 +236,15 @@ func apply_force_to_object(obj, _distance, intensity, delta):
 			sigh = 1
 			max_intensity = max_intensity_repuse_player
 			min_intensity = min_intensity_repuse_player
-			print("DEBUG: Nova velocidade de", obj.name, ":", obj.velocity)
+			#print("DEBUG: Nova velocidade de", obj.name, ":", obj.velocity)
 		else: 
 			sigh = -1 
 			max_intensity = max_intensity_repuse_player
 			min_intensity = min_intensity_atract_player
-			print("DEBUG: Nova velocidade de", obj.name, ":", obj.velocity)
+			#print("DEBUG: Nova velocidade de", obj.name, ":", obj.velocity)
 			
 		obj.velocity = obj.velocity + (_acceleration) * sigh
-			
-		#obj.velocity = obj.velocity + (_acceleration) * sigh
-		#print("DEBUG: Nova velocidade de", obj.name, ":", obj.velocity)
+		print("DEBUG: Nova velocidade de", obj.name, ":", obj.velocity)
 
 	elif obj is CollisionShape2D:
 		
@@ -207,12 +258,57 @@ func apply_force_to_object(obj, _distance, intensity, delta):
 				sigh = 1
 				max_intensity = max_intensity_repuse_staticbody
 				min_intensity = min_intensity_repuse_staticbody
-				print("DEBUG: Nova velocidade de", obj.name, ":", velocity, "if")
+				#print("DEBUG: Nova velocidade de", obj.name, ":", velocity, "if")
 		else:
 			if !obj.is_in_group(disable_group):
 				sigh = -1 
 				max_intensity = max_intensity_repuse_staticbody
 				min_intensity = min_intensity_atract_staticbody
-				print("DEBUG: Nova velocidade de", obj.name, ":", velocity, " else")
+				#print("DEBUG: Nova velocidade de", obj.name, ":", velocity, " else")
 
 		velocity = velocity + (_acceleration) * sigh
+
+func apply_animation():
+	if not current_animation:
+		return  # Evita erro se não houver sprite no grupo
+	if is_in_group("positive"):
+		current_animation.visible = false
+		current_animation = animation_positive
+		current_animation.visible = true
+	else:
+		current_animation.visible = false
+		current_animation = animation_negative
+		current_animation.visible = true
+
+	var velocity_x = velocity.x
+	#print(velocity_x)
+
+	# Inverter o sprite horizontalmente baseado no movimento
+	if velocity_x < 0:
+		current_animation.flip_h = true
+	elif velocity_x > 0:
+		current_animation.flip_h = false
+	
+	# Escolher animação com base na velocidade
+	if abs(velocity_x) < 5 :
+		current_animation.play("Stopped")
+	elif abs(velocity_x) < 50:
+		current_animation.play("Walking")
+	elif abs(velocity_x) >= 400:
+		current_animation.play("Running")
+	#if is_on_wall() and !is_on_floor():
+		#for i in range(get_slide_collision_count()):
+			#var collision = get_slide_collision(i)
+			#var normal = collision.get_normal()
+			#if normal.x < 0 :
+				#current_animation.play("OnRightWall")
+			#if normal.x > 0 :
+				#current_animation.play("OnLeftWall")
+	if is_on_wall() and is_on_floor():
+		current_animation.play("Stopped")
+	if !is_on_floor() and velocity.y < 0 and abs(velocity.x) < 30:
+		current_animation.play("OnAir")
+
+	if current_animation.animation != last_animation:  # Só printa se mudar
+		#print("Animação atual:", current_animation.animation)
+		last_animation = current_animation.animation  # Atualiza o valor salvo

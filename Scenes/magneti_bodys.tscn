@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://bjyynaq0mla7w"]
+
+[ext_resource type="Script" uid="uid://b85s7cgsbmh88" path="res://Map_1/magneti_bodys.gd" id="1_osquq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1p5hy"]
+size = Vector2(32, 48)
+
+[node name="MagnetiBodys" type="StaticBody2D"]
+collision_layer = 2
+script = ExtResource("1_osquq")
+
+[node name="ObjOne" type="CollisionShape2D" parent="."]
+position = Vector2(768, 64)
+shape = SubResource("RectangleShape2D_1p5hy")
